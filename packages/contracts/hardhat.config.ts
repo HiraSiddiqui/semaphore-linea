@@ -54,6 +54,16 @@ function getNetworks(): NetworksUserConfig {
             url: "https://arb1.arbitrum.io/rpc",
             chainId: 42161,
             accounts
+        },
+        linea: {
+            url: `https://linea-mainnet.infura.io/v3/${infuraApiKey}`,
+            chainId: 59144,
+            accounts
+        },
+        "linea-goerli": {
+            url: `https://linea-goerli.infura.io/v3/${infuraApiKey}`,
+            chainId: 59140,
+            accounts
         }
     }
 }
@@ -83,7 +93,20 @@ const hardhatConfig: HardhatUserConfig = {
         target: "ethers-v5"
     },
     etherscan: {
-        apiKey: process.env.ETHERSCAN_API_KEY
+        apiKey: {
+            //goerli: process.env.ETHERSCAN_API_KEY,
+            "linea-goerli": process.env.INFURA_API_KEY
+        },
+        customChains: [
+            {
+              network: "linea-goerli",
+              chainId: 59140,
+              urls: {
+                apiURL: "https://explorer.goerli.linea.build/api",
+                browserURL: "https://explorer.goerli.linea.build"
+              }
+            }
+          ]
     }
 }
 
